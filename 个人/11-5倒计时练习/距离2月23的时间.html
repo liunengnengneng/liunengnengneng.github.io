@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <span>距离2.23的时间</span>
+    <script>
+        let ding = new Date('2022-2-23').getTime();
+        setInterval(function () {
+            let xian = new Date().getTime();
+            let xin = ding - xian;
+            let tian = parseInt(xin / 1000 / 60 / 60 / 24);
+            let shi = parseInt(xin / 1000 / 60 / 60 % 24);
+            let fen = parseInt(xin / 1000 / 60 % 60);
+            let miao = parseInt(xin / 1000 % 60);
+            document.querySelector('span').innerText = `距离2.23的时间还有${tian}天${shi}时${fen}分${miao}秒`;
+        },1000)
+    </script>
+</body>
+</html>

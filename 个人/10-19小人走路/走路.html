@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img {
+            position: absolute;
+            top: 100px;
+            left: 0px;
+            width: 200px;
+            height: 100px;
+            /* transition: all 5s linear; */
+            border: 1px solid black;
+        }
+
+        .box {
+            position: relative;
+            left: 0px;
+            top: -70px;
+            border: 1px solid black;
+            height: 900px;
+            width: 1890px;
+        }
+
+        h1 {
+            position: absolute;
+            top: 250px;
+        }
+
+        .span {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            position: absolute;
+            top: 120px;
+            left: 100px;
+        }
+
+        .qiang1 {
+            width: 1000px;
+            height: 10px;
+            position: absolute;
+            top: 200px;
+            background-color: black;
+        }
+
+        .qiang2 {
+            width: 1000px;
+            height: 10px;
+            position: absolute;
+            top: 418px;
+            right: 0px;
+            background-color: black;
+        }
+
+        .guai1 {
+            position: absolute;
+            top: 40px;
+            left: 840px;
+            width: 200px;
+            border: 1px solid black;
+            height: 200px;
+            background-image: url(images/343.gif);
+            background-size: 100% 100%;
+        }
+
+        .jinqian {
+            position: absolute;
+            top: 300px;
+            left: 1700px;
+            display: block;
+            width: 100px;
+            height: 100px;
+            background-image: url(images/5435346.webp);
+            background-size: 100% 100%;
+        }
+
+        p {
+            position: relative;
+            top: 10px;
+            left: 0px;
+        }
+
+        .men {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100px;
+            height: 100px;
+            background-image: url(images/53453534543.webp);
+            background-size: 100% 100%;
+            top: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>游戏说明：左右移动 k键攻击空格跳跃</p>
+    <p>金钱：0</p>
+    <div class="box">
+        <img src="images/64543.gif" alt="" class="img">
+        <header class="guai1"></header>
+        <main class="qiang1"></main>
+        <main class="qiang2"></main>
+        <div class="jinqian"></div>
+        <div class="men"></div>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script>
+        // 右边是39 左边37 下面40 上面38  k攻击75  空格32
+        // num 持续移动的px距离 span 子弹字符串储存的变量 tirm 右边定时器  tirm 左边定时器 怪兽移动定时器tirm3
+        let num = 0;
+        let span = 0;
+        let tirm = null;
+        let tirm1 = null;
+        let tirm3 = null;
+
+        // 金币动画效果
+        function fn2() {
+            $('.jinqian').animate({
+                top: 400
+            });
+            $('.jinqian').animate({
+                top: 300
+            });
+        }
+
+
+
+
+
+        function fn() {
+            // 怪兽碰到了人物后击败人物
+            if ($('.img').offset().left + 100 >= $('.guai1').offset().left) {
+                $('.guai1').stop(true);
+                clearInterval(tirm3);
+                tirm3 = null;
+                alert('你的脑子被吃了');
+            }
+            // fn = null;
+        }
+        tirm3 = setInterval(function () {
+            fn();
+            $('.guai1').animate({
+                left: 0
+            }, 10000);
+
+        });
+
+        fn();
+
+        window.onkeydown = function (event) {
+            // console.log(event.keyCode);
+
+            // k攻击键
+            if (event.keyCode == 75) {
+                $('.box').append('<span class="span"></span>');
+                // 子弹跟随人物移动
+                $('.span').css({
+                    left: `${($('.img').offset().left) + 200}px`
+                })
+                // 子弹打出的距离
+                $('.span').animate({
+                    left: `${500 + ($('.img').offset().left)}`,
+                    top: `120`
+                });
+                // 子弹打怪兽
+                if ($('.guai1') != null) {
+                    if (($('.span').eq(0).offset().left) + ($('.img').offset().left) + 200 >= $('.guai1').offset().left) {
+                        $('.guai1').remove();
+                        // alert('成杀死一个怪兽,积分加10分');
+                    }
+                }
+
+            };
+
+
+
+
+            // 右边
+            if (event.keyCode == 39) {
+                // 关闭所有定时器
+                clearInterval(tirm);
+                tirm = null;
+                clearInterval(tirm1);
+                tirm1 = null;
+                tirm = setTimeout(function () {
+                    $('.img').css({
+                        'left': `${num += 5}px`
+                    }, 2000);
+                    if (num >= 1800) {
+                        clearInterval(tirm);
+                        tirm = null;
+                        alert('出界了');
+                    }
+
+                });
+                // 想右移动一定距离掉到下一层
+                if ($('.img').offset().left >= 939) {
+                    $('.img').animate({
+                        top: `318`
+                    });
+                    // 掉到下一层后让图片旋转方向
+                    fn2();
+                    $('.img').css({
+                        'transform': 'rotateY(180deg)'
+                    });
+                }
+
+                // 吃到金币后加分并关闭金币动画效果
+                if ($('.img').offset().left + 200 == $('.jinqian').offset().left) {
+                    $('.jinqian').remove();
+                    $('p').eq(1).html('金币：10个');
+
+                }
+                fn();
+
+
+            }
+
+
+
+            // 左边
+            if (event.keyCode == 37) {
+                console.log($('.img').offset().left, $('.img').offset().top);
+                // 关闭所有定时器
+                clearInterval(tirm);
+                tirm = null;
+                clearInterval(tirm1);
+                tirm1 = null;
+                tirm1 = setTimeout(function () {
+                    $('.img').css({
+                        'left': `${num -= 5}px`
+                    }, 2000);
+                    if (num < -100) {
+                        clearInterval(tirm1);
+                        tirm1 = null;
+                        alert('出界了');
+                    }
+
+                });
+                console.log($('.img').offset().left);
+                if ($('.img').offset().top >= 339) {
+                    console.log(1111);
+                    if ($('.img').offset().left <= 755) {
+                        // 掉到最后一层
+                        $('.img').css({
+                            'transform': 'rotateY(180deg)'
+                        });
+                        $('.img').animate({
+                            top: '800'
+                        }, 100);
+                    }
+                }
+                if ($('.img').offset().left <= 0 && $('.img').offset().top >= 800) {
+                    alert('挑战成功');
+                }
+            }
+
+
+
+        }
+
+
+
+        window.onkeyup = function () {
+            // 松开k键让span消失
+            $("span").remove();
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

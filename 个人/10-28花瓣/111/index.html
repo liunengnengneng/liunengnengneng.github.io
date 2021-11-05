@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: -30px;
+            left: 0px;
+        }
+
+        .dd {
+            transform-style: preserve-3d;
+            animation: dong 5s linear 5s infinite alternate;
+        }
+
+        @keyframes dong {
+            10% {
+                 transform: rotateX(140deg);
+                transform: rotateY(60deg); 
+                top: 50px;
+            }
+
+            20% {
+                transform: rotateY(90deg);
+                transform: rotateX(200deg);
+                top: 100px;
+            }
+
+            30% {
+                transform: rotateY(90deg);
+                transform: rotateX(40deg);
+                top: 160px;
+            }
+
+            40% {
+                transform: rotateY(340deg);
+                transform: rotateX(200deg);
+                top: 260px;
+            }
+
+            50% {
+                transform: rotateY(10deg);
+                transform: rotateX(310deg);
+                top: 360px;
+            }
+
+            60% {
+                transform: rotateY(110deg);
+                transform: rotateX(230deg);
+                top: 450px;
+            }
+
+            70% {
+                transform: rotateY(290deg);
+                transform: rotateX(70deg);
+                top: 550px;
+            }
+
+            80% {
+                transform: rotateY(290deg);
+                transform: rotateX(130deg);
+                top: 670px;
+            }
+
+            90% {
+                transform: rotateY(170deg);
+                transform: rotateX(220deg);
+                top: 870px;
+            }
+
+            100% {
+                transform: rotateY(200deg);
+                transform: rotateX(28deg);
+                top: 900px;
+            }
+        }
+    
+    </style>
+</head>
+
+<body>
+    <script>
+        setInterval(function () {
+            let wig = Math.floor(Math.random() * 1900);
+            let hua = document.createElement('img');
+            hua.src = '花瓣.png';
+            hua.classList = 'dd';
+            document.querySelector('body').appendChild(hua);
+            document.querySelector('img').style.left = `${wig}px`;
+            hh();
+        }, 100);
+        function hh() {
+                if (document.querySelector('img').offsetTop + document.querySelector('img').offsetHeight >= 935) {
+                    document.querySelector('img').remove();
+                }
+            }
+    </script>
+</body>
+
+</html>
